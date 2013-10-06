@@ -1,0 +1,317 @@
+<style>
+
+#game {
+
+    width: 500px;
+
+    height: 500px;
+
+    background: #;
+
+    border: 1px solid #ddd;
+
+    margin: 50px auto;
+
+    padding: 10px;
+
+    overflow: auto;
+
+}
+
+ 
+
+#game div {
+
+    margin: 0 auto;
+
+    clear: both;
+
+    with: 180px;
+
+}
+
+#game button {
+
+    display: block;
+
+    background: #00FFFF;
+
+    float: left;
+
+    width:50px;
+
+    height: 50px;
+
+    margin: 3px;
+
+}
+
+#gameActionDisplay {
+
+    padding: 20px 10px;
+
+}
+
+ 
+
+</style>
+
+<div id="game">
+
+<div id="gameActionDisplay">Message to the user</div>
+
+<div>
+
+    <button></button>
+
+    <button></button>
+
+    <button></button>
+
+</div>
+
+<div>
+
+    <button></button>
+
+    <button></button>
+
+    <button></button>
+
+</div>
+
+<div>
+
+    <button></button>
+
+    <button></button>
+
+    <button></button>
+
+</div>
+
+</div>
+
+ 
+
+<script>
+
+ 
+
+var Display = function(displayElement) {
+
+  var display = displayElement;
+
+  function setText(message) {
+
+    display.innerText = message;
+
+  }
+
+ 
+
+  return {setMessage: setText};
+
+};
+
+ 
+
+function isValid(btn) {
+
+  return btn.innerText.length == 0;
+
+}
+
+ 
+
+function checkScore(btn, squares) {
+
+  console.log(click);
+
+  console.log(btn);
+
+  console.log(squares);
+
+}
+
+ 
+
+function setMark(btn, players, currentTurn) {
+
+  btn.innerText = players[currentTurn];
+
+}
+
+ 
+
+function charlieSheen(squares, players, currentTurn) {
+
+  if (squares[0,1,2].innerText == players[currentTurn] )
+
+    return true;
+
+ 
+
+  if (squares[3,4,5].innerText == players[currentTurn])
+
+    return true;
+
+ 
+
+  if (squares[6,7,8].innerText == players[currentTurn])
+
+    return true;
+
+ 
+
+  if (squares[0,3,6].innerText == players[currentTurn])
+
+    return true;
+
+ 
+
+  if (squares[1,4,7].innerText == players[currentTurn])
+
+    return true;
+
+ 
+
+  if (squares[2,5,8].innerText == players[currentTurn])
+
+    return true;
+
+ 
+
+  if (squares[0,4,8].innerText == players[currentTurn])
+
+    return true;
+
+ 
+
+  if (squares[2,4,6].innerText == players[currentTurn])
+
+    return true;
+
+   
+
+  if else
+
+    return false;
+
+}
+
+ 
+
+function fullBoard(squares) {
+
+  for (var i = 0, len = squares.length; i < len; i++)
+
+    if (squares[i].innerText.length == 0)
+
+      return false;
+
+ 
+
+  return true;
+
+}
+
+ 
+
+function GameDraw(squares) {
+
+  return (!charlieSheen(squares, ["X"], 0)) && fullBoard(squares);
+
+}
+
+ 
+
+function setMark(btn, mark){
+
+    btn.innerText = mark;
+
+}
+
+function main() {
+
+  var squares = document.querySelectorAll("#game button");
+
+  var players = ["X", "O"];
+
+  var currentTurn = 0;
+
+  var gameOver = false;
+
+  var display = new Display(document.querySelector("#gameActionDisplay"));
+
+ 
+
+  display.setMessage("Player 'X' begins");
+
+ 
+
+   for (var i=0;i<squares.length;i++){
+
+    squares[i].addEventListener("click", function(){
+
+      if (gameOver)
+
+        return;
+
+ 
+
+      if (!isValid(this)) {
+
+        display.setMessage("Invalid move");
+
+      } else {
+
+        setMark(this, players, currentTurn);
+
+ 
+
+        gameOver = charlieSheen(squares, players, currentTurn);
+
+        if (gameOver) {
+
+          display.setMessage("Player" + players[currentTurn] + "WINNING");
+
+          return;
+
+        }
+
+ 
+
+        if (GameDraw(squares)) {
+
+          display.setMessage("GAMEDRAW");
+
+          return;
+
+        }
+
+ 
+
+       currentTurn++;
+
+                if(currentTurn > 1);
+
+                currentTurn = 0;
+
+ 
+
+        display.setMessage("Player" + players[currentTurn] + "to move");
+
+      }
+
+ 
+
+    });
+
+}
+
+ 
+
+(function(){ main();})();
+
+</script>
